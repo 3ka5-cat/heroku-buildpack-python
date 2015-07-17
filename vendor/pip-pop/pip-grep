@@ -54,7 +54,10 @@ def grep(reqfile, packages, silent=False):
 
         if requirement.req:
 
-            if requirement.req.project_name in packages:
+            if requirement.req.project_name in packages or \
+                    any(['{project_name}[{extra}]'.format(project_name=requirement.req.project_name,
+                                                          extra=extra) in packages
+                         for extra in requirement.extras]):
 
                 if not silent:
                     print('Package {} found!'.format(requirement.req.project_name))
